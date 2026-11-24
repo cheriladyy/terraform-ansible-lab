@@ -1,0 +1,5 @@
+# Örnek dosya
+#   ansible-vault create group_vars/all/vault.yml
+# ve içine aşağıdaki iki satırı kendi değerlerinle yaz.
+vault_basic_auth_user: "kullanici-adi"
+vault_basic_auth_pass: "guclu-bir-parola"

@@ -1,0 +1,43 @@
+# uygulama kodunu EC2'ya kopyalıyor
+
+# EC2'da app directory oluşturuyo: /opt/app/src
+- name: Create application directory
+  ansible.builtin.file:
+    path: "{{ app_dir }}/src"
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+
+- name: Copy application source code
+  ansible.builtin.copy:
+    src: "{{ app_src_dir }}"
+    dest: "{{ app_dir }}/src/"
+    owner: root
+    group: root
+  register: app_source
+
+- name: Build application image
+  community.docker.docker_image_build:
+    name: "{{ app_name }}"
+    tag: latest
+    path: "{{ app_dir }}/src"
+    pull: true
+    rebuild: "{{ 'always' if app_source is changed else 'never' }}"
+
+- name: Run application container
+  community.docker.docker_container:
+    name: "{{ app_name }}"
+    image: "{{ app_name }}:latest"
+    pull: never
+    state: started
+    restart_policy: unless-stopped
+    published_ports:
+      - "80:80"
+    env:
+      APP_ENV: "{{ app_env }}"
+      BASIC_AUTH_USER: "{{ basic_auth_user }}"
+      BASIC_AUTH_PASS: "{{ basic_auth_pass }}"
+    security_opts:
+      - no-new-privileges:true
+  no_log: true # env içindeki parola loglara yazılmasın
