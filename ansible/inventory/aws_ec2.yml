@@ -1,0 +1,16 @@
+# Dynamic inventory: sunucuları AWS'den Terraform'un koyduğu tag'lere göre bulur.
+# Dosya adı "aws_ec2.yml" ile bitmek zorunda.
+plugin: amazon.aws.aws_ec2
+
+regions:
+  - eu-west-1
+
+# Sadece bu projeye ait çalışan instance'lar
+filters:
+  instance-state-name: running
+  tag:Project: app
+  tag:ManagedBy: terraform
+
+# Bağlanırken public IP'yi (Elastic IP) kullan
+compose:
+  ansible_host: public_ip_address

@@ -1,0 +1,28 @@
+# Dockerfile'daki "COPY --chmod" BuildKit gerektirdiği için kurdum.
+# python3-requests: community.docker modülleri Docker API'sine bununla bağlanıyor.
+- name: Install Docker Engine and buildx
+  ansible.builtin.apt:
+    name:
+      - docker.io
+      - docker-buildx
+      - python3-requests
+    state: present
+
+- name: Configure Docker daemon
+  ansible.builtin.copy:
+    src: daemon.json
+    dest: /etc/docker/daemon.json
+    owner: root
+    group: root
+    mode: "0644"
+  notify: Restart docker
+
+- name: Ensure Docker is running
+  ansible.builtin.service:
+    name: docker
+    state: started
+    enabled: true
+
+# daemon.json değiştiyse Docker'ı uygulama deploy edilmeden önce yeniden başlat
+- name: Flush handlers
+  ansible.builtin.meta: flush_handlers

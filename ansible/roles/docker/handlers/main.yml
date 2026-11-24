@@ -1,0 +1,6 @@
+#Handler normal task'lardan farklı olarak yalnızca notify edildiğinde çalışır.
+#Örneğin Docker konfigürasyon dosyası değişirse Docker yeniden başlatılır.
+- name: Restart docker
+  ansible.builtin.service:
+    name: docker
+    state: restarted

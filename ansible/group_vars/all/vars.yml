@@ -1,0 +1,12 @@
+# Uygulama
+app_name: app
+app_dir: /opt/app
+# Mac'teki uygulama kodunuda / klasörün içindekileri kopyalar.
+app_src_dir: "{{ playbook_dir }}/../app/"
+
+# Ortam adı Terraform'un koyduğu Environment tag'inden gelir
+app_env: "{{ ec2_tags.Environment | default('dev') }}"
+
+# Gizli değerler vault.yml'den (ansible-vault ile şifreli) gelir
+basic_auth_user: "{{ vault_basic_auth_user }}"
+basic_auth_pass: "{{ vault_basic_auth_pass }}"
