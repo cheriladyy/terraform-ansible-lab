@@ -57,3 +57,8 @@ variable "private_subnets" {
   type        = list(string)
   default     = []
 }
+
+variable "monitoring_instance_type" {
+  description = "EC2 instance type for Zabbix monitoring server"
+  type        = string
+}

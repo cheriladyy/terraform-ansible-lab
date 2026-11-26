@@ -1,5 +1,6 @@
 environment   = "dev"
 instance_type = "t3.micro"
+monitoring_instance_type = "t3.small"
 
 vpc_cidr_block = "10.0.0.0/16"
 public_subnets = ["10.0.1.0/24"]
