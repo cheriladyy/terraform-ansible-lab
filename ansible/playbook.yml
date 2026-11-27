@@ -1,10 +1,22 @@
 # Web sunucusunu ve uygulamayı yapılandırır.
 # ansible-playbook playbook.yml -l env_dev
 - name: Configure web server and deploy application
+  hosts: web
   become: true # root yetkisi ile çalışır.
 
   roles:
     - common     # temel paketler
-    - hardening  # SSH, firewall, fail2ban, otomatik güvenlik güncellemeleri, sysctl
     - docker     # Docker Engine + buildx
     - app        # uygulamanın imajını oluştur ve container'ı çalıştır
+    - zabbix_agent
+
+
+# Monitoring sunucusu
+- name: Configure monitoring server
+  hosts: monitoring
+  become: true
+
+  roles:
+    - common
+    - docker
+    - monitoring

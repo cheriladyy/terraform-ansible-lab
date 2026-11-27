@@ -10,3 +10,4 @@ app_env: "{{ ec2_tags.Environment | default('dev') }}"
 # Gizli değerler vault.yml'den (ansible-vault ile şifreli) gelir
 basic_auth_user: "{{ vault_basic_auth_user }}"
 basic_auth_pass: "{{ vault_basic_auth_pass }}"
+zabbix_db_password: "{{ vault_zabbix_db_password }}"

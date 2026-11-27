@@ -2,6 +2,8 @@
 # python3-requests: community.docker modülleri Docker API'sine bununla bağlanıyor.
 - name: Install Docker Engine and buildx
   ansible.builtin.apt:
+    update_cache: true
+    cache_valid_time: 3600
     name:
       - docker.io
       - docker-buildx
